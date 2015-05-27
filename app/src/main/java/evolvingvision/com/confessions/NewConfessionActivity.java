@@ -5,7 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import com.firebase.client.Firebase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class NewConfessionActivity extends ActionBarActivity {
@@ -40,6 +46,17 @@ public class NewConfessionActivity extends ActionBarActivity {
     }
 
     public void submitConfession(View view){
-        Toast.makeText(this,"Function is called",Toast.LENGTH_LONG).show();
+        Firebase confessionFirebase = new Firebase("https://confessionsdummy.firebaseio.com/");
+        Map<String,String> data = new HashMap<String,String>();
+        EditText titleText = (EditText)this.findViewById(R.id.newConfessionTitle);
+        String title = titleText.getText().toString();
+
+        EditText descriptionText = (EditText)this.findViewById(R.id.newConfessionDescription);
+        String description = descriptionText.getText().toString();
+        data.put("title",title);
+        data.put("description",description);
+        confessionFirebase.child("confession").push().setValue(data);
+        Toast.makeText(this,"Confession submitted successfully",Toast.LENGTH_LONG).show();
+        finish();
     }
 }
