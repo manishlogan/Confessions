@@ -1,29 +1,37 @@
 package evolvingvision.com.confessions;
 
-import android.content.Intent;
+import android.app.ListActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
-import com.firebase.client.Firebase;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class ReadConfessionsActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Firebase.setAndroidContext(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_read_confessions);
+//        TextView titleText = (TextView)findViewById(R.id.titleText);
+        List<String> data = new ArrayList<String>();
+        data.add("Manish");
+        data.add("Logan");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.confession_list_layout,R.id.titleText,data);
+        setListAdapter(adapter);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_read_confessions, menu);
         return true;
     }
 
@@ -40,15 +48,5 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void newConfession(View view){
-        Intent newConfessionIntent = new Intent(this,NewConfessionActivity.class);
-        this.startActivity(newConfessionIntent);
-    }
-
-    public void readConfessions(View view){
-        Intent readConfessionsIntent = new Intent(this, ReadConfessionsActivity.class);
-        this.startActivity(readConfessionsIntent);
     }
 }
